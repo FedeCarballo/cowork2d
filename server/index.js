@@ -1,26 +1,11 @@
-// require('dotenv').config();
-// const express  = require('express');
-// const http     = require('http');
-// const { Server } = require('socket.io');
-// const path     = require('path');
-// const session  = require('express-session');
-// const passport = require('passport');
-// const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
-console.log('STEP 1 - starting');
+require('dotenv').config();
 const express  = require('express');
-console.log('STEP 2 - express OK');
 const http     = require('http');
 const { Server } = require('socket.io');
-console.log('STEP 3 - socket.io OK');
 const path     = require('path');
-// require('dotenv').config();   // comentado temporalmente
-console.log('STEP 4 - before passport');
 const session  = require('express-session');
-console.log('STEP 5 - session OK');
 const passport = require('passport');
-console.log('STEP 6 - passport OK');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
-console.log('STEP 7 - google strategy OK');
 
 const app    = express();
 const server = http.createServer(app);
@@ -43,12 +28,16 @@ passport.use(new GoogleStrategy({
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
-
+app.set('trust proxy', 1);
 app.use(session({
   secret: process.env.SESSION_SECRET || 'cowork2d-secret-dev',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 }
+  cookie: {
+    secure: true,
+    sameSite: 'none',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
