@@ -12,7 +12,13 @@ const server = http.createServer(app);
 const io     = new Server(server, {
   cors: { origin: '*', methods: ['GET', 'POST'] }
 });
-
+console.log('ENV CHECK:', {
+  GOOGLE_CLIENT_ID:     !!process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: !!process.env.GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL:  process.env.GOOGLE_CALLBACK_URL,
+  SESSION_SECRET:       !!process.env.SESSION_SECRET,
+  PORT:                 process.env.PORT,
+});
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 passport.use(new GoogleStrategy({
   clientID:     process.env.GOOGLE_CLIENT_ID,
