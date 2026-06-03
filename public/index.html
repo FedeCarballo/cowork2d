@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoWork2D — Tu oficina virtual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN SCREEN ═══════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="pixel-logo">
+      <span class="logo-icon">🏢</span>
+      <h1>CoWork<span class="accent">2D</span></h1>
+      <p class="tagline">Tu oficina virtual, sin Zoom, sin fatiga.</p>
+    </div>
+
+    <div class="form-group" id="google-profile-wrap">
+      <label>SESIÓN</label>
+      <div id="google-profile" style="display:flex;align-items:center;gap:10px;padding:8px 0;"></div>
+    </div>
+
+    <div class="form-group">
+      <label>TU NOMBRE</label>
+      <input type="text" id="input-name" placeholder="Cargando..." maxlength="20" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label>SALA (código o nombre)</label>
+      <input type="text" id="input-room" placeholder="Ej: equipo-dev" maxlength="30" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label>TU AVATAR</label>
+      <div class="avatar-picker" id="avatar-picker"></div>
+    </div>
+
+    <div class="form-group">
+      <label>COLOR DE NOMBRE</label>
+      <div class="color-picker" id="color-picker">
+        <div class="color-opt selected" data-color="#4ade80" style="background:#4ade80"></div>
+        <div class="color-opt" data-color="#60a5fa" style="background:#60a5fa"></div>
+        <div class="color-opt" data-color="#f472b6" style="background:#f472b6"></div>
+        <div class="color-opt" data-color="#fb923c" style="background:#fb923c"></div>
+        <div class="color-opt" data-color="#a78bfa" style="background:#a78bfa"></div>
+        <div class="color-opt" data-color="#fbbf24" style="background:#fbbf24"></div>
+      </div>
+    </div>
+
+    <button id="btn-join" class="btn-pixel">⚡ ENTRAR A LA SALA</button>
+
+    <p class="hint">Compartí el nombre de sala con tus compañeros para reunirse.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN APP ═══════════════ -->
+<div id="app" class="hidden">
+
+  <!-- Top HUD -->
+  <div id="hud-top">
+    <div class="hud-left">
+      <span class="hud-logo">🏢 CoWork2D</span>
+      <span id="hud-room"></span>
+      <span id="hud-count">👥 1</span>
+    </div>
+    <div class="hud-center">
+      <span class="hint-move">← WASD / Flechas para mover · Acercate a alguien para hablar →</span>
+    </div>
+    <div class="hud-right">
+      <button class="hud-btn" id="btn-mic" title="Micrófono">🎤</button>
+      <button class="hud-btn" id="btn-cam" title="Cámara">📷</button>
+      <button class="hud-btn" id="btn-screen" title="Compartir pantalla">🖥️</button>
+      <button class="hud-btn" id="btn-chat-toggle" title="Chat">💬</button>
+      <select id="status-select" title="Estado">
+        <option value="available">🟢 Disponible</option>
+        <option value="busy">🔴 Ocupado</option>
+        <option value="away">🟡 Ausente</option>
+      </select>
+      <a href="/auth/logout" class="hud-btn" title="Cerrar sesión" style="text-decoration:none;font-size:14px;">🚪</a>
+    </div>
+  </div>
+
+  <!-- Canvas world -->
+  <canvas id="world-canvas"></canvas>
+
+  <!-- Video grid (proximity) -->
+  <div id="video-grid"></div>
+
+  <!-- Chat panel -->
+  <div id="chat-panel" class="hidden">
+    <div id="chat-header">
+      <span>💬 Chat de sala</span>
+      <button id="btn-chat-close">✕</button>
+    </div>
+    <div id="chat-messages"></div>
+    <div id="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Escribí un mensaje..." maxlength="300" autocomplete="off">
+      <button id="btn-chat-send">➤</button>
+    </div>
+  </div>
+
+  <!-- Proximity toast -->
+  <div id="proximity-toast" class="hidden"></div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/avatars.js"></script>
+<script src="js/world.js"></script>
+<script src="js/webrtc.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
